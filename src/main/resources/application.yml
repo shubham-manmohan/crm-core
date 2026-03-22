@@ -1,0 +1,63 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: mini2more-crm
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/meta_ecomm2?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Kolkata
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:noreply@mini2more.in}
+    password: ${MAIL_PASSWORD:changeme}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:mini2moreSolutionsSecretKey2024ForJWTTokenGenerationAndValidation}
+  access-token-expiry: 1800000 # 30 minutes
+  refresh-token-expiry: 604800000 # 7 days
+
+# File Storage Configuration
+file:
+  storage:
+    location: ${FILE_STORAGE_PATH:./storage}
+    max-size: 52428800 # 50MB
+
+# CORS
+cors:
+  allowed-origins: http://localhost:3000
+
+# Swagger / OpenAPI
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true

@@ -1,0 +1,12 @@
+/** Copyright © 2026 Mini2More. All Rights Reserved. Product: Mini2More CRM **/
+package com.mini2more.crm.common.enums;
+
+public enum DispatchStatus {
+    PACKING,
+    READY_TO_SHIP,
+    SHIPPED,
+    IN_TRANSIT,
+    OUT_FOR_DELIVERY,
+    DELIVERED,
+    RETURNED
+}
