@@ -1,8 +1,8 @@
 /** Copyright © 2026 Mini2More. All Rights Reserved. Product: Mini2More CRM **/
 package com.mini2more.crm.modules.master.controller;
-import com.mini2more.crm.modules.master.service.MasterDataService;
-import com.mini2more.crm.modules.master.dto.MasterDataRequest;
-import com.mini2more.crm.modules.master.dto.MasterDataResponse;
+import com.mini2more.crm.modules.master.service.TenantMasterService;
+import com.mini2more.crm.modules.master.dto.TenantMasterRequest;
+import com.mini2more.crm.modules.master.dto.TenantMasterResponse;
 
 import com.mini2more.crm.common.dto.ApiResponse;
 import jakarta.validation.Valid;
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/master")
+@RequestMapping("/api/tenant-master")
 @RequiredArgsConstructor
-public class MasterDataController {
+public class TenantMasterController {
 
-    private final MasterDataService masterDataService;
+    private final TenantMasterService TenantMasterService;
 
     /**
      * Get all active master data by type (public endpoint for dropdowns)
@@ -27,8 +27,8 @@ public class MasterDataController {
      * LEAD_SOURCE, PRODUCT_CATEGORY, BRAND
      */
     @GetMapping("/{type}")
-    public ResponseEntity<ApiResponse<List<MasterDataResponse>>> getByType(@PathVariable String type) {
-        List<MasterDataResponse> data = masterDataService.getByType(type);
+    public ResponseEntity<ApiResponse<List<TenantMasterResponse>>> getByType(@PathVariable String type) {
+        List<TenantMasterResponse> data = TenantMasterService.getByType(type);
         return ResponseEntity.ok(ApiResponse.success(data));
     }
 
@@ -36,10 +36,10 @@ public class MasterDataController {
      * Get master data by type and parent (e.g., cities for a given state)
      */
     @GetMapping("/{type}/parent/{parentCode}")
-    public ResponseEntity<ApiResponse<List<MasterDataResponse>>> getByTypeAndParent(
+    public ResponseEntity<ApiResponse<List<TenantMasterResponse>>> getByTypeAndParent(
             @PathVariable String type,
             @PathVariable String parentCode) {
-        List<MasterDataResponse> data = masterDataService.getByTypeAndParent(type, parentCode);
+        List<TenantMasterResponse> data = TenantMasterService.getByTypeAndParent(type, parentCode);
         return ResponseEntity.ok(ApiResponse.success(data));
     }
 
@@ -47,10 +47,10 @@ public class MasterDataController {
      * Search master data by type with keyword
      */
     @GetMapping("/{type}/search")
-    public ResponseEntity<ApiResponse<List<MasterDataResponse>>> search(
+    public ResponseEntity<ApiResponse<List<TenantMasterResponse>>> search(
             @PathVariable String type,
             @RequestParam(required = false) String q) {
-        List<MasterDataResponse> data = masterDataService.search(type, q);
+        List<TenantMasterResponse> data = TenantMasterService.search(type, q);
         return ResponseEntity.ok(ApiResponse.success(data));
     }
 
@@ -59,8 +59,8 @@ public class MasterDataController {
      */
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<MasterDataResponse>> create(@Valid @RequestBody MasterDataRequest request) {
-        MasterDataResponse response = masterDataService.create(request);
+    public ResponseEntity<ApiResponse<TenantMasterResponse>> create(@Valid @RequestBody TenantMasterRequest request) {
+        TenantMasterResponse response = TenantMasterService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Master data created", response));
     }
@@ -70,10 +70,10 @@ public class MasterDataController {
      */
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<MasterDataResponse>> update(
+    public ResponseEntity<ApiResponse<TenantMasterResponse>> update(
             @PathVariable Long id,
-            @Valid @RequestBody MasterDataRequest request) {
-        MasterDataResponse response = masterDataService.update(id, request);
+            @Valid @RequestBody TenantMasterRequest request) {
+        TenantMasterResponse response = TenantMasterService.update(id, request);
         return ResponseEntity.ok(ApiResponse.success("Master data updated", response));
     }
 
@@ -83,7 +83,7 @@ public class MasterDataController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
-        masterDataService.delete(id);
+        TenantMasterService.delete(id);
         return ResponseEntity.ok(ApiResponse.success("Master data deactivated", null));
     }
 }

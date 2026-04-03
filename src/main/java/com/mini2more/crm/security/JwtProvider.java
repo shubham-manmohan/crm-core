@@ -26,11 +26,13 @@ public class JwtProvider {
         this.refreshTokenExpiry = refreshTokenExpiry;
     }
 
-    public String generateAccessToken(Long userId, String email, String role) {
+    public String generateAccessToken(Long userId, String email, String role, String tenantId, java.util.List<String> permissions) {
         return Jwts.builder()
                 .subject(email)
                 .claim("userId", userId)
                 .claim("role", role)
+                .claim("tenantId", tenantId)
+                .claim("permissions", permissions)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + accessTokenExpiry))
                 .signWith(key)
@@ -73,5 +75,14 @@ public class JwtProvider {
 
     public Long getUserIdFromToken(String token) {
         return parseToken(token).get("userId", Long.class);
+    }
+
+    public String getTenantIdFromToken(String token) {
+        return parseToken(token).get("tenantId", String.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    public java.util.List<String> getPermissionsFromToken(String token) {
+        return parseToken(token).get("permissions", java.util.List.class);
     }
 }

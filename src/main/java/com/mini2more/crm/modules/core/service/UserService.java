@@ -208,7 +208,11 @@ public class UserService {
     }
 
     private AuthResponse buildAuthResponse(UserEntity user) {
-        String accessToken = jwtProvider.generateAccessToken(user.getId(), user.getEmail(), user.getRole().name());
+        String tenantId = user.getTenantId();
+        java.util.List<String> permissions = new java.util.ArrayList<>();
+        if (user.getRole() == UserRole.ADMIN) permissions.add("SUPER_ADMIN");
+        else permissions.add("MODULE_VIEW");
+        String accessToken = jwtProvider.generateAccessToken(user.getId(), user.getEmail(), user.getRole().name(), tenantId, permissions);
         String refreshToken = jwtProvider.generateRefreshToken(user.getEmail());
 
         return AuthResponse.builder()

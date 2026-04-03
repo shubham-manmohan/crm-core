@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MasterDataResponse {
+public class TenantMasterResponse {
     private Long id;
     private String type;
     private String code;

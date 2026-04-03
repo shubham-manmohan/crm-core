@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "master_data", uniqueConstraints = {
+@Table(name = "tenant_master_data", uniqueConstraints = {
         @UniqueConstraint(columnNames = { "type", "code" })
 })
 @Getter
@@ -14,7 +14,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MasterData extends BaseEntity {
+public class TenantMaster extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

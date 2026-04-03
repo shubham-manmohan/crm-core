@@ -1,6 +1,6 @@
 /** Copyright © 2026 Mini2More. All Rights Reserved. Product: Mini2More CRM **/
 package com.mini2more.crm.modules.master.entity;
-import com.mini2more.crm.modules.master.repository.MasterDataRepository;
+import com.mini2more.crm.modules.master.repository.GlobalMasterRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Slf4j
 public class DataSeeder implements CommandLineRunner {
 
-    private final MasterDataRepository masterDataRepository;
+    private final GlobalMasterRepository GlobalMasterRepository;
     private final BranchRepository branchRepository;
     private final UserRepository userRepository;
     private final com.mini2more.crm.modules.core.repository.CompanyRepository companyRepository;
@@ -91,7 +91,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private void seedStates() {
-        if (masterDataRepository.countByType("STATE") == 0) {
+        if (GlobalMasterRepository.countByType("STATE") == 0) {
             String[][] states = {
                     { "DL", "Delhi" }, { "MH", "Maharashtra" }, { "KA", "Karnataka" },
                     { "TN", "Tamil Nadu" }, { "GJ", "Gujarat" }, { "RJ", "Rajasthan" },
@@ -104,7 +104,7 @@ public class DataSeeder implements CommandLineRunner {
             };
             int order = 1;
             for (String[] s : states) {
-                masterDataRepository.save(MasterData.builder()
+                GlobalMasterRepository.save(GlobalMaster.builder()
                         .type("STATE").code(s[0]).name(s[1])
                         .displayOrder(order++).isActive(true).build());
             }
@@ -118,7 +118,7 @@ public class DataSeeder implements CommandLineRunner {
             };
             order = 1;
             for (String[] c : delhiCities) {
-                masterDataRepository.save(MasterData.builder()
+                GlobalMasterRepository.save(GlobalMaster.builder()
                         .type("CITY").code(c[0]).name(c[1]).parentCode("DL")
                         .displayOrder(order++).isActive(true).build());
             }
@@ -129,7 +129,7 @@ public class DataSeeder implements CommandLineRunner {
             };
             order = 1;
             for (String[] c : mumbaiCities) {
-                masterDataRepository.save(MasterData.builder()
+                GlobalMasterRepository.save(GlobalMaster.builder()
                         .type("CITY").code(c[0]).name(c[1]).parentCode("MH")
                         .displayOrder(order++).isActive(true).build());
             }
@@ -138,7 +138,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private void seedIndustries() {
-        if (masterDataRepository.countByType("INDUSTRY") == 0) {
+        if (GlobalMasterRepository.countByType("INDUSTRY") == 0) {
             String[][] industries = {
                     { "POWER", "Power & Energy" }, { "OIL_GAS", "Oil & Gas" },
                     { "WATER", "Water & Wastewater" }, { "METALS", "Metals & Mining" },
@@ -151,7 +151,7 @@ public class DataSeeder implements CommandLineRunner {
             };
             int order = 1;
             for (String[] i : industries) {
-                masterDataRepository.save(MasterData.builder()
+                GlobalMasterRepository.save(GlobalMaster.builder()
                         .type("INDUSTRY").code(i[0]).name(i[1])
                         .displayOrder(order++).isActive(true).build());
             }
@@ -160,7 +160,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private void seedApplications() {
-        if (masterDataRepository.countByType("APPLICATION") == 0) {
+        if (GlobalMasterRepository.countByType("APPLICATION") == 0) {
             String[][] apps = {
                     { "MOTOR_CONTROL", "Motor Control" }, { "SWITCHGEAR", "Switchgear Panel" },
                     { "PLC_SCADA", "PLC & SCADA" }, { "DRIVES_VFD", "Drives & VFD" },
@@ -172,7 +172,7 @@ public class DataSeeder implements CommandLineRunner {
             };
             int order = 1;
             for (String[] a : apps) {
-                masterDataRepository.save(MasterData.builder()
+                GlobalMasterRepository.save(GlobalMaster.builder()
                         .type("APPLICATION").code(a[0]).name(a[1])
                         .displayOrder(order++).isActive(true).build());
             }
@@ -181,7 +181,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private void seedUnits() {
-        if (masterDataRepository.countByType("UNIT") == 0) {
+        if (GlobalMasterRepository.countByType("UNIT") == 0) {
             String[][] units = {
                     { "NOS", "Numbers" }, { "MTR", "Meters" }, { "KG", "Kilograms" },
                     { "SET", "Sets" }, { "BOX", "Box" }, { "ROLL", "Roll" },
@@ -190,7 +190,7 @@ public class DataSeeder implements CommandLineRunner {
             };
             int order = 1;
             for (String[] u : units) {
-                masterDataRepository.save(MasterData.builder()
+                GlobalMasterRepository.save(GlobalMaster.builder()
                         .type("UNIT").code(u[0]).name(u[1])
                         .displayOrder(order++).isActive(true).build());
             }
@@ -199,7 +199,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private void seedPaymentTerms() {
-        if (masterDataRepository.countByType("PAYMENT_TERM") == 0) {
+        if (GlobalMasterRepository.countByType("PAYMENT_TERM") == 0) {
             String[][] terms = {
                     { "ADVANCE", "100% Advance" }, { "PDC", "PDC (Post Dated Cheque)" },
                     { "NET15", "Net 15 Days" }, { "NET30", "Net 30 Days" },
@@ -209,7 +209,7 @@ public class DataSeeder implements CommandLineRunner {
             };
             int order = 1;
             for (String[] t : terms) {
-                masterDataRepository.save(MasterData.builder()
+                GlobalMasterRepository.save(GlobalMaster.builder()
                         .type("PAYMENT_TERM").code(t[0]).name(t[1])
                         .displayOrder(order++).isActive(true).build());
             }
@@ -218,7 +218,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private void seedLeadSources() {
-        if (masterDataRepository.countByType("LEAD_SOURCE") == 0) {
+        if (GlobalMasterRepository.countByType("LEAD_SOURCE") == 0) {
             String[][] sources = {
                     { "WEBSITE", "Website" }, { "WHATSAPP", "WhatsApp" },
                     { "PHONE", "Phone Call" }, { "EMAIL", "Email" },
@@ -229,7 +229,7 @@ public class DataSeeder implements CommandLineRunner {
             };
             int order = 1;
             for (String[] s : sources) {
-                masterDataRepository.save(MasterData.builder()
+                GlobalMasterRepository.save(GlobalMaster.builder()
                         .type("LEAD_SOURCE").code(s[0]).name(s[1])
                         .displayOrder(order++).isActive(true).build());
             }
@@ -238,7 +238,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private void seedProductCategories() {
-        if (masterDataRepository.countByType("PRODUCT_CATEGORY") == 0) {
+        if (GlobalMasterRepository.countByType("PRODUCT_CATEGORY") == 0) {
             String[][] cats = {
                     { "MCB", "Miniature Circuit Breaker" }, { "MCCB", "Moulded Case Circuit Breaker" },
                     { "ACB", "Air Circuit Breaker" }, { "CONTACTOR", "Contactors & Relays" },
@@ -253,7 +253,7 @@ public class DataSeeder implements CommandLineRunner {
             };
             int order = 1;
             for (String[] c : cats) {
-                masterDataRepository.save(MasterData.builder()
+                GlobalMasterRepository.save(GlobalMaster.builder()
                         .type("PRODUCT_CATEGORY").code(c[0]).name(c[1])
                         .displayOrder(order++).isActive(true).build());
             }
@@ -262,7 +262,7 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     private void seedBrands() {
-        if (masterDataRepository.countByType("BRAND") == 0) {
+        if (GlobalMasterRepository.countByType("BRAND") == 0) {
             String[][] brands = {
                     { "SCHNEIDER", "Schneider Electric" }, { "SIEMENS", "Siemens" },
                     { "ABB", "ABB" }, { "LS", "LS Electric" }, { "DELTA", "Delta Electronics" },
@@ -275,7 +275,7 @@ public class DataSeeder implements CommandLineRunner {
             };
             int order = 1;
             for (String[] b : brands) {
-                masterDataRepository.save(MasterData.builder()
+                GlobalMasterRepository.save(GlobalMaster.builder()
                         .type("BRAND").code(b[0]).name(b[1])
                         .displayOrder(order++).isActive(true).build());
             }

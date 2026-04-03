@@ -1,9 +1,9 @@
 /** Copyright © 2026 Mini2More. All Rights Reserved. Product: Mini2More CRM **/
 package com.mini2more.crm.modules.master.service;
-import com.mini2more.crm.modules.master.entity.MasterData;
-import com.mini2more.crm.modules.master.dto.MasterDataRequest;
-import com.mini2more.crm.modules.master.dto.MasterDataResponse;
-import com.mini2more.crm.modules.master.repository.MasterDataRepository;
+import com.mini2more.crm.modules.master.entity.GlobalMaster;
+import com.mini2more.crm.modules.master.dto.GlobalMasterRequest;
+import com.mini2more.crm.modules.master.dto.GlobalMasterResponse;
+import com.mini2more.crm.modules.master.repository.GlobalMasterRepository;
 
 import com.mini2more.crm.common.exception.DuplicateResourceException;
 import com.mini2more.crm.common.exception.ResourceNotFoundException;
@@ -18,28 +18,28 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class MasterDataService {
+public class GlobalMasterService {
 
-    private final MasterDataRepository repository;
+    private final GlobalMasterRepository repository;
 
-    public List<MasterDataResponse> getByType(String type) {
+    public List<GlobalMasterResponse> getByType(String type) {
         return repository.findByTypeAndIsActiveTrueOrderByDisplayOrderAscNameAsc(type.toUpperCase())
                 .stream().map(this::mapToResponse).collect(Collectors.toList());
     }
 
-    public List<MasterDataResponse> getByTypeAndParent(String type, String parentCode) {
+    public List<GlobalMasterResponse> getByTypeAndParent(String type, String parentCode) {
         return repository.findByTypeAndParentCodeAndIsActiveTrueOrderByDisplayOrderAscNameAsc(
                 type.toUpperCase(), parentCode.toUpperCase())
                 .stream().map(this::mapToResponse).collect(Collectors.toList());
     }
 
-    public List<MasterDataResponse> search(String type, String search) {
+    public List<GlobalMasterResponse> search(String type, String search) {
         return repository.searchByType(type.toUpperCase(), search)
                 .stream().map(this::mapToResponse).collect(Collectors.toList());
     }
 
     @Transactional
-    public MasterDataResponse create(MasterDataRequest request) {
+    public GlobalMasterResponse create(GlobalMasterRequest request) {
         String type = request.getType().toUpperCase();
         String code = request.getCode().toUpperCase();
 
@@ -47,7 +47,7 @@ public class MasterDataService {
             throw new DuplicateResourceException("Master data already exists: " + type + "/" + code);
         }
 
-        MasterData entity = MasterData.builder()
+        GlobalMaster entity = GlobalMaster.builder()
                 .type(type)
                 .code(code)
                 .name(request.getName())
@@ -63,9 +63,9 @@ public class MasterDataService {
     }
 
     @Transactional
-    public MasterDataResponse update(Long id, MasterDataRequest request) {
-        MasterData entity = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("MasterData", id));
+    public GlobalMasterResponse update(Long id, GlobalMasterRequest request) {
+        GlobalMaster entity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("GlobalMaster", id));
 
         if (request.getName() != null)
             entity.setName(request.getName());
@@ -86,14 +86,14 @@ public class MasterDataService {
 
     @Transactional
     public void delete(Long id) {
-        MasterData entity = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("MasterData", id));
+        GlobalMaster entity = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("GlobalMaster", id));
         entity.setIsActive(false);
         repository.save(entity);
     }
 
-    private MasterDataResponse mapToResponse(MasterData entity) {
-        return MasterDataResponse.builder()
+    private GlobalMasterResponse mapToResponse(GlobalMaster entity) {
+        return GlobalMasterResponse.builder()
                 .id(entity.getId())
                 .type(entity.getType())
                 .code(entity.getCode())
